@@ -80,7 +80,8 @@ class MTab4D(object):
     def get_table_annotation(
         self,
         table_content,
-        table_name,
+        table_name="",
+        predict_target=False,
         tar_cea=None,
         tar_cta=None,
         tar_cpa=None,
@@ -89,6 +90,7 @@ class MTab4D(object):
         query_args = {
             "table_name": table_name,
             "table": table_content,
+            "predict_target": predict_target,
             "tar_cea": tar_cea,
             "tar_cta": tar_cta,
             "tar_cpa": tar_cpa,
@@ -159,7 +161,7 @@ def m_test_semtab(round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thre
         st.dir_cea_tar.format(data_version=data_version, round_id=round_id)
     ):
         table_id, col_i, row_i = line[:3]
-        tar_cea[table_id].append([row_i, col_i])
+        tar_cea[table_id].append([col_i, row_i])
 
     # Load target cta
     for line in m_iw.load_object_csv(
