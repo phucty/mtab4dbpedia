@@ -1,5 +1,6 @@
 from experiments.mtab4d import MTab4D, m_test_semtab, m_test_evaluation
 
+
 if __name__ == "__main__":
     mtab_api = MTab4D()
     # 1. Entity Search
