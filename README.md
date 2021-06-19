@@ -11,7 +11,7 @@ Example: the query is Tokyo, and get 20 relevant entities.
 
 **Command:** 
 ```bash
-% curl --request POST --header "Content-Type: application/json" --data '{"q":"Tokyo", "limit":20}' http://119.172.242.147:5000/api/v1/search
+curl --request POST --header "Content-Type: application/json" --data '{"q":"Tokyo", "limit":20}' http://119.172.242.147:5000/api/v1/search
 ```
 
 ### 2. Get entity information: 
@@ -20,7 +20,7 @@ Get entity information from DBpedia (2016-10). The responded object include DBpe
 Example: Get information of the entity of Tokyo
 **Command:** 
 ```bash
-% curl --request POST --header "Content-Type: application/json" --data '{"q":"Tokyo"}' http://119.172.242.147:5000/api/v1/info
+curl --request POST --header "Content-Type: application/json" --data '{"q":"Tokyo"}' http://119.172.242.147:5000/api/v1/info
 ```
 
 ### 3. Table annotation:
