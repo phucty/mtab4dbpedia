@@ -32,7 +32,7 @@ class MTab4D(object):
     def _request(self, func_name, query_args):
         responds = defaultdict()
         try:
-            _responds = self.session.post(func_name, json=query_args, timeout=None)
+            _responds = self.session.post(func_name, json=query_args, timeout=15000)
             if _responds.status_code == 200:
                 responds = _responds.json()
         except Exception as message:
@@ -152,7 +152,7 @@ def m_test_semtab(round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thre
     dir_tables = m_iw.get_files_from_dir(
         st.dir_tables.format(data_version=data_version, round_id=round_id),
         is_sort=True,
-        reverse=True,
+        reverse=False,
     )
     tar_cea, tar_cta, tar_cpa = defaultdict(list), defaultdict(list), defaultdict(list)
 
