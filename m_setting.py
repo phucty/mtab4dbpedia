@@ -1,5 +1,7 @@
 DIR_ROOT = "/Users/phuc/git/mtab4dbpedia"
 
+DOMAIN = "http://119.172.242.147:5000"  # "http://0.0.0.0:5000"
+
 # Dataset Directories
 dir_tables = DIR_ROOT + "/data/{data_version}/Round {round_id}/tables"
 

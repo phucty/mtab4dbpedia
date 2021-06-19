@@ -16,7 +16,7 @@ import m_setting as st
 
 class MTab4D(object):
     def __init__(self):
-        self.DOMAIN = "http://119.172.242.147:5000"  # "http://0.0.0.0:5000"
+        self.DOMAIN = st.DOMAIN
         self.F_ENTITY_SEARCH = f"{self.DOMAIN}/api/v1/search"
         self.F_GET_ENTITY_INFO = f"{self.DOMAIN}/api/v1/info"
         self.F_MTAB = f"{self.DOMAIN}/api/v1/mtab"
