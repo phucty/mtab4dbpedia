@@ -87,13 +87,13 @@ class MTab4D(object):
 
     def get_eval(self, round_id, res_cea=None, res_cta=None, res_cpa=None):
         query_args = defaultdict()
-        query_args["round"] = round_id
+        query_args["round_id"] = round_id
         if res_cea:
-            query_args["cea"] = res_cea
+            query_args["res_cea"] = res_cea
         if res_cta:
-            query_args["cta"] = res_cta
+            query_args["res_cta"] = res_cta
         if res_cpa:
-            query_args["cpa"] = res_cpa
+            query_args["res_cpa"] = res_cpa
 
         responds = self._request(self.F_EVAL, query_args)
         return responds
