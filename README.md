@@ -1,11 +1,12 @@
-MTab4DBpedia 
-===========
+<img src="interface/static/images/logo_mtab_1.png" height="120" alt="MTab4D">
 Tabular data annotation with DBpedia version 2016-10
 ---
 
-### https://dbpedia.mtab.app
+### Demo
+- Table Annotation: https://dbpedia.mtab.app/mtab
+- Entity Search: https://dbepdia.mtab.app/mtabes
 
-## Features:
+### API
 ### 1. Entity Search: 
 Search relevant entities from DBpedia (2016-10)
 
