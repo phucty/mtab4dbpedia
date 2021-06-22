@@ -1,4 +1,4 @@
-from experiments.mtab4d import MTab4D, m_test_semtab, m_test_evaluation
+from experiments.mtab4d import MTab4D, m_test_evaluation
 from api.utilities import m_iw
 import m_setting as st
 
@@ -6,6 +6,9 @@ import m_setting as st
 if __name__ == "__main__":
 
     mtab_api = MTab4D()
+
+    # 5. Numerical labeling
+    print(mtab_api.search_numerical_labeling([1.50, 1.51, 1.52, 1.53, 1.54]))
 
     # 1. Entity Search
     print(mtab_api.search_entity("Tokyo"))
@@ -16,7 +19,7 @@ if __name__ == "__main__":
     # 3. Table annotation
     # Table v18_665 in Round 4
     table_content = m_iw.load_object_csv(
-        st.dir_tables.format(data_version="semtab_org", round_id=4) + "/v18_665.csv"
+        st.dir_tables.format(data_version="semtab_org", round_id=4) + "/v18_665.csv",
     )
     # Let provide matching targets (data taken from round 4 dataset)
     tar_cea = [

@@ -20,6 +20,7 @@ class MTab4D(object):
         self.F_ENTITY_SEARCH = f"{self.DOMAIN}/api/v1/search"
         self.F_GET_ENTITY_INFO = f"{self.DOMAIN}/api/v1/info"
         self.F_MTAB = f"{self.DOMAIN}/api/v1/mtab"
+        self.F_NUM = f"{self.DOMAIN}/api/v1/num"
         self.F_EVAL = f"{self.DOMAIN}/api/v1/eval"
 
         self.session = requests.Session()
@@ -36,7 +37,27 @@ class MTab4D(object):
             if _responds.status_code == 200:
                 responds = _responds.json()
         except Exception as message:
-            print(f"\n{message}\n{str(query_args)}")
+            if func_name == self.F_MTAB and query_args.get("table_name"):
+                args_info = func_name + ": " + query_args.get("table_name")
+            else:
+                args_info = func_name
+            print(f"\n{message}\n{args_info}")
+        return responds
+
+    def search_numerical_labeling(self, query_value, limit=20):
+        query_args = {
+            "values": query_value,
+            "limit": limit,
+            "get_prop_class": False,
+        }
+        if not query_value:
+            return {}
+        _responds = self._request(self.F_NUM, query_args)
+
+        if _responds and _responds.get("hits"):
+            responds = {k: r for k, r in _responds["hits"].items()}
+        else:
+            responds = {}
         return responds
 
     def search_entity(self, query_value, limit=20):
@@ -180,8 +201,8 @@ def m_test_semtab(round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thre
     # Create input args
     args = []
     for dir_table in dir_tables:
-        table_content = m_iw.load_object_csv(dir_table)
         table_id = os.path.splitext(os.path.basename(dir_table))[0]
+        table_content = m_iw.load_object_csv(dir_table)
         args_obj = {
             "table_content": table_content,
             "table_id": table_id,
