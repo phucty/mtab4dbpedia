@@ -107,6 +107,7 @@ class MTab4D(object):
         tar_cta=None,
         tar_cpa=None,
         round_id=0,
+        search_mode="b",
     ):
         query_args = {
             "table_name": table_name,
@@ -116,6 +117,7 @@ class MTab4D(object):
             "tar_cta": tar_cta,
             "tar_cpa": tar_cpa,
             "round_id": round_id,
+            "search_mode": search_mode,
         }
         responds = self._request(self.F_MTAB, query_args)
         return responds
@@ -160,13 +162,16 @@ def pool_table_annotation(args):
             tar_cta=args.get("tar_cta"),
             tar_cpa=args.get("tar_cpa"),
             round_id=args.get("round_id"),
+            search_mode=args.get("search_mode"),
         )
         return responds
     except Exception as message:
         return {"status": "Error", "message": message}
 
 
-def m_test_semtab(round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thread=1):
+def m_test_semtab(
+    round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thread=1, search_mode="b"
+):
     start = time()
 
     # Load tables
@@ -209,6 +214,7 @@ def m_test_semtab(round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thre
             "tar_cea": tar_cea.get(table_id),
             "tar_cta": tar_cta.get(table_id),
             "tar_cpa": tar_cpa.get(table_id),
+            "search_mode": search_mode,
             "round_id": round_id,
         }
         args.append(args_obj)

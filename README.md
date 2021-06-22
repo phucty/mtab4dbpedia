@@ -48,6 +48,7 @@ Table annotation with MTab4DBpedia.
 - tar_cta: column-type targets
 - tar_cpa: relation-property targets
 - round_id: from [1-5]. [1, 2, 3, 4] is the four rounds of SemTab 2019. 5 is Tough Tables dataset
+- search_mode: "b": using BM25 entity search, "f": using entity fuzzy search, "a": using Entity search aggregation mode of "b" and "f"
 #### Example:
 Please refer m_main.py on how to use it. 
 
