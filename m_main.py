@@ -4,11 +4,7 @@ import m_setting as st
 
 
 if __name__ == "__main__":
-
     mtab_api = MTab4D()
-
-    # 5. Numerical labeling
-    print(mtab_api.search_numerical_labeling([1.50, 1.51, 1.52, 1.53, 1.54]))
 
     # 1. Entity Search
     print(mtab_api.search_entity("Tokyo"))
@@ -52,6 +48,9 @@ if __name__ == "__main__":
     print(results_auto)
 
     # 4. Evaluation: Submit annotation results in /results
-    for round_id in [1, 2, 3, 4]:
+    for round_id in [1]:  # , 2, 3, 4, 5
         m_test_evaluation(round_id, data_version="semtab_org")
         m_test_evaluation(round_id, data_version="semtab_2019_dbpedia_2016-10")
+
+    # 5. Numerical labeling
+    print(mtab_api.search_numerical_labeling([1.50, 1.51, 1.52, 1.53, 1.54]))

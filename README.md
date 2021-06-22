@@ -64,7 +64,7 @@ Please refer m_main.py on how to use it.
 
 ### 5. Numerical labeling
 Annotate numerical column of tables with Knowledge Graph properties
-#### API:
+#### API: https://dbpedia.mtab.app/api/v1/num
 #### Parameters:
 - values: numerical values
 - limit: maximum number of relevant entities to return. 

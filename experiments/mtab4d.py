@@ -141,12 +141,12 @@ def m_test_evaluation(c_round=1, data_version="semtab_2019_dbpedia_2016-10"):
     )
     # iw.print_status(f"{str(timedelta(seconds=round(time() - start)))}")
     print(f"Round {c_round}:")
-    if res_a.get("cea"):
-        print("    CEA:" + str(res_a.get("cea")))
-    if res_a.get("cta"):
-        print("    CTA:" + str(res_a.get("cta")))
-    if res_a.get("cpa"):
-        print("    CPA:" + str(res_a.get("cpa")))
+    if res_a.get("res_cea"):
+        print("    CEA:" + str(res_a.get("res_cea")))
+    if res_a.get("res_cta"):
+        print("    CTA:" + str(res_a.get("res_cta")))
+    if res_a.get("res_cpa"):
+        print("    CPA:" + str(res_a.get("res_cpa")))
 
 
 def pool_table_annotation(args):
