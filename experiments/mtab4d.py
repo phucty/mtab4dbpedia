@@ -2,7 +2,7 @@ import os
 from collections import defaultdict
 from contextlib import closing
 from datetime import timedelta
-from time import time
+from time import time, sleep
 from multiprocessing import Pool
 
 import requests
@@ -41,6 +41,7 @@ class MTab4D(object):
                 if not responds or (
                     responds.get("status") == "Error" and not responds.get("message")
                 ):
+                    sleep(300)
                     return self._request(func_name, query_args, retries - 1)
         except Exception as message:
             if func_name == self.F_MTAB and query_args.get("table_name"):
