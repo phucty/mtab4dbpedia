@@ -30,12 +30,18 @@ class MTab4D(object):
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
         self.session.mount("http://", HTTPAdapter(max_retries=retries))
 
-    def _request(self, func_name, query_args):
+    def _request(self, func_name, query_args, retries=3):
         responds = defaultdict()
+        if retries == 0:
+            return responds
         try:
             _responds = self.session.post(func_name, json=query_args, timeout=15000)
             if _responds.status_code == 200:
                 responds = _responds.json()
+                if not responds or (
+                    responds.get("status") == "Error" and not responds.get("message")
+                ):
+                    return self._request(func_name, query_args, retries - 1)
         except Exception as message:
             if func_name == self.F_MTAB and query_args.get("table_name"):
                 args_info = func_name + ": " + query_args.get("table_name")
@@ -230,7 +236,7 @@ def m_test_semtab(
                         print(output_args.get("message"))
                     else:
                         print(
-                            "Error POST: Could not get POST input, please retry this table again. (The server is overloading now)"
+                            "Error: Could not get POST input, please retry again. (The server is overloading now)"
                         )
                     continue
                 if output_args.get("semantic"):
