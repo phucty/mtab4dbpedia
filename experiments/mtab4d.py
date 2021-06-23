@@ -226,10 +226,13 @@ def m_test_semtab(
             for output_args in p.imap_unordered(pool_table_annotation, args):
                 p_bar.update()
                 if not output_args or output_args["status"] == "Error":
-                    print("Error POST: Could get POST input")
                     if output_args.get("message"):
                         print(output_args.get("message"))
-                    return
+                    else:
+                        print(
+                            "Error POST: Could not get POST input, please retry this table again. (The server is overloading now)"
+                        )
+                    continue
                 if output_args.get("semantic"):
                     if output_args["semantic"].get("cea"):
                         res_cea.extend(
