@@ -102,7 +102,14 @@ class MTab4D(object):
             responds = _responds["info"]
         return responds
 
-    def get_eval(self, round_id, res_cea=None, res_cta=None, res_cpa=None):
+    def get_eval(
+        self,
+        round_id,
+        res_cea=None,
+        res_cta=None,
+        res_cpa=None,
+        data_version="semtab_org",
+    ):
         query_args = defaultdict()
         query_args["round_id"] = round_id
         if res_cea:
@@ -111,6 +118,8 @@ class MTab4D(object):
             query_args["res_cta"] = res_cta
         if res_cpa:
             query_args["res_cpa"] = res_cpa
+
+        query_args["data_version"] = data_version
 
         responds = self._request(self.F_EVAL, query_args)
         return responds
@@ -165,9 +174,10 @@ def m_test_evaluation(
         res_cea=res_cea,
         res_cta=res_cta,
         res_cpa=res_cpa,
+        data_version=data_version,
     )
     # iw.print_status(f"{str(timedelta(seconds=round(time() - start)))}")
-    print(f"Round {c_round}:")
+    print(f"Round: {c_round} - SearchMode: {search_mode} - Data: {data_version}")
     if res_a.get("res_cea"):
         print("    CEA:" + str(res_a.get("res_cea")))
     if res_a.get("res_cta"):

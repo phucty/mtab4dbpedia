@@ -52,10 +52,13 @@ if __name__ == "__main__":
     print(results_auto)
 
     # 4. Evaluation: Submit annotation results in /results
-    print("Evaluation: Round 1")
+    print("Evaluation:")
     for round_id in [1]:  # , 2, 3, 4, 5
-        m_test_evaluation(round_id, data_version="semtab_org")
-        m_test_evaluation(round_id, data_version="semtab_2019_dbpedia_2016-10")
+        for data_version in ["semtab_org", "semtab_2019_dbpedia_2016-10"]:
+            for search_mode in ["f", "b", "a"]:
+                m_test_evaluation(
+                    round_id, data_version=data_version, search_mode=search_mode
+                )
 
     # 5. Numerical labeling
     print("Numerical column labeling: ")
