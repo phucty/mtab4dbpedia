@@ -34,6 +34,12 @@ dir_cpa_gt = (
 )
 
 # Result files
-dir_cea_res = DIR_ROOT + "/results/Round {round_id}/{data_version}_cea.csv"
-dir_cta_res = DIR_ROOT + "/results/Round {round_id}/{data_version}_cta.csv"
-dir_cpa_res = DIR_ROOT + "/results/Round {round_id}/{data_version}_cpa.csv"
+dir_cea_res = (
+    DIR_ROOT + "/results/Round {round_id}/{data_version}_{search_mode}_cea.csv"
+)
+dir_cta_res = (
+    DIR_ROOT + "/results/Round {round_id}/{data_version}_{search_mode}_cta.csv"
+)
+dir_cpa_res = (
+    DIR_ROOT + "/results/Round {round_id}/{data_version}_{search_mode}_cpa.csv"
+)

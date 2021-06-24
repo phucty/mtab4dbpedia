@@ -25,30 +25,40 @@ class MTab4D(object):
 
         self.session = requests.Session()
         retries = Retry(
-            total=2, backoff_factor=1, status_forcelist=[500, 502, 503, 504]
+            total=5, backoff_factor=1, status_forcelist=[500, 502, 503, 504]
         )
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
         self.session.mount("http://", HTTPAdapter(max_retries=retries))
 
-    def _request(self, func_name, query_args, retries=3):
+    def _request(self, func_name, query_args, retries=3, message=""):
         responds = defaultdict()
         if retries == 0:
+            print(message)
             return responds
         try:
-            _responds = self.session.post(func_name, json=query_args, timeout=15000)
+            # _responds = requests.post(func_name, json=query_args, timeout=7200)
+            _responds = self.session.post(func_name, json=query_args, timeout=7200)
             if _responds.status_code == 200:
                 responds = _responds.json()
                 if not responds or (
                     responds.get("status") == "Error" and not responds.get("message")
                 ):
                     sleep(300)
-                    return self._request(func_name, query_args, retries - 1)
+                    return self._request(
+                        func_name,
+                        query_args,
+                        retries - 1,
+                        message=f"Error: Retry {retries-1}",
+                    )
         except Exception as message:
             if func_name == self.F_MTAB and query_args.get("table_name"):
                 args_info = func_name + ": " + query_args.get("table_name")
             else:
                 args_info = func_name
-            print(f"\n{message}\n{args_info}")
+            sleep(300)
+            return self._request(
+                func_name, query_args, retries - 1, message=f"\n{message} - {args_info}"
+            )
         return responds
 
     def search_numerical_labeling(self, query_value, limit=20):
@@ -130,16 +140,24 @@ class MTab4D(object):
         return responds
 
 
-def m_test_evaluation(c_round=1, data_version="semtab_2019_dbpedia_2016-10"):
+def m_test_evaluation(
+    c_round=1, data_version="semtab_2019_dbpedia_2016-10", search_mode="b"
+):
     # start = time()
     res_cea = m_iw.load_object_csv(
-        st.dir_cea_res.format(round_id=c_round, data_version=data_version)
+        st.dir_cea_res.format(
+            round_id=c_round, data_version=data_version, search_mode=search_mode
+        )
     )
     res_cta = m_iw.load_object_csv(
-        st.dir_cta_res.format(round_id=c_round, data_version=data_version)
+        st.dir_cta_res.format(
+            round_id=c_round, data_version=data_version, search_mode=search_mode
+        )
     )
     res_cpa = m_iw.load_object_csv(
-        st.dir_cpa_res.format(round_id=c_round, data_version=data_version)
+        st.dir_cpa_res.format(
+            round_id=c_round, data_version=data_version, search_mode=search_mode
+        )
     )
     mtab_api = MTab4D()
     res_a = mtab_api.get_eval(
@@ -268,13 +286,22 @@ def m_test_semtab(
 
     # Save annotation files
     m_iw.save_object_csv(
-        st.dir_cea_res.format(round_id=round_id, data_version=data_version), res_cea
+        st.dir_cea_res.format(
+            round_id=round_id, data_version=data_version, search_mode=search_mode
+        ),
+        res_cea,
     )
     m_iw.save_object_csv(
-        st.dir_cta_res.format(round_id=round_id, data_version=data_version), res_cta
+        st.dir_cta_res.format(
+            round_id=round_id, data_version=data_version, search_mode=search_mode
+        ),
+        res_cta,
     )
     m_iw.save_object_csv(
-        st.dir_cpa_res.format(round_id=round_id, data_version=data_version), res_cpa
+        st.dir_cpa_res.format(
+            round_id=round_id, data_version=data_version, search_mode=search_mode
+        ),
+        res_cpa,
     )
-    m_test_evaluation(round_id, data_version=data_version)
+    m_test_evaluation(round_id, data_version=data_version, search_mode=search_mode)
     print(f"{str(timedelta(seconds=round(time() - start)))}")

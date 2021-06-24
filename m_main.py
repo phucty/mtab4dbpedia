@@ -7,13 +7,16 @@ if __name__ == "__main__":
     mtab_api = MTab4D()
 
     # 1. Entity Search
+    print("Search Entity: Tokyo")
     print(mtab_api.search_entity("Tokyo"))
 
     # 2. Get entity information
+    print("Get Entity Information: Tokyo")
     print(mtab_api.get_entity_info("Tokyo"))
 
     # 3. Table annotation
     # Table v18_665 in Round 4
+    print("Table Annotation (with targets): v18_665")
     table_content = m_iw.load_object_csv(
         st.dir_tables.format(data_version="semtab_org", round_id=4) + "/v18_665.csv",
     )
@@ -42,15 +45,18 @@ if __name__ == "__main__":
     print(results_targets)
 
     # Let MTab do automatically predict targets
+    print("Table Annotation (without targets): v18_665")
     results_auto = mtab_api.get_table_annotation(
         table_content, table_name="UNKNOWN", predict_target=True
     )
     print(results_auto)
 
     # 4. Evaluation: Submit annotation results in /results
+    print("Evaluation: Round 1")
     for round_id in [1]:  # , 2, 3, 4, 5
         m_test_evaluation(round_id, data_version="semtab_org")
         m_test_evaluation(round_id, data_version="semtab_2019_dbpedia_2016-10")
 
     # 5. Numerical labeling
+    print("Numerical column labeling: ")
     print(mtab_api.search_numerical_labeling([1.50, 1.51, 1.52, 1.53, 1.54]))
