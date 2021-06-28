@@ -176,7 +176,7 @@ If you find MTab4DBpedia tool useful in your work, and you want to cite our work
                Ryutaro Ichise and
                Hideaki Takeda},
   title     = {MTab: Matching Tabular Data to Knowledge Graph using Probability Models},
-  booktitle = {SemTab@ISWC 2020},
+  booktitle = {SemTab@ISWC 2019},
   volume    = {2553},
   pages     = {7--14},
   publisher = {CEUR-WS.org},
