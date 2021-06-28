@@ -166,5 +166,23 @@ To make a fair evaluation, it is important to have the same target DBpedia versi
 - 1st prize at SemTab 2020 (tabular data to Wikidata matching). [Results](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/results.html)
 - 1st prize at SemTab 2019 (tabular data to DBpedia matching). [Results](http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2019/results.html)
 
+### Citing
+
+If you find MTab4DBpedia tool useful in your work, and you want to cite our work, please use the following referencee:
+```
+@inproceedings{2019_mtab4dbpedia,
+  author    = {Phuc Nguyen and
+               Natthawut Kertkeidkachorn and
+               Ryutaro Ichise and
+               Hideaki Takeda},
+  title     = {MTab: Matching Tabular Data to Knowledge Graph using Probability Models},
+  booktitle = {SemTab@ISWC 2020},
+  volume    = {2553},
+  pages     = {7--14},
+  publisher = {CEUR-WS.org},
+  year      = {2019},
+}
+```
+
 ### Contact
 Phuc Nguyen (`phucnt@nii.ac.jp`)
