@@ -118,8 +118,8 @@ DIR_ROOT = "/Users/phuc/git/mtab4dbpedia"
 
 - Decompress data files
 ```
-data/semtab_2019_dbpedia_2016-10.zip
-data/semtab_org.zip
+data/semtab_2019_dbpedia_2016-10.tar.bz2
+data/semtab_org.tar.bz2
 ```
 
 4. Run experiment for 

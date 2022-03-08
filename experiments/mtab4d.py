@@ -102,8 +102,11 @@ class MTab4D(object):
             responds = _responds["info"]
         return responds
 
-    def get_eval(self, round_id, res_cea=None, res_cta=None, res_cpa=None):
+    def get_eval(
+        self, data_version, round_id, res_cea=None, res_cta=None, res_cpa=None
+    ):
         query_args = defaultdict()
+        query_args["data_version"] = data_version
         query_args["round_id"] = round_id
         if res_cea:
             query_args["res_cea"] = res_cea
@@ -141,7 +144,10 @@ class MTab4D(object):
 
 
 def m_test_evaluation(
-    c_round=1, data_version="semtab_2019_dbpedia_2016-10", search_mode="b"
+    c_round=1,
+    data_version="semtab_2019_dbpedia_2016-10",
+    search_mode="b",
+    print_result=True,
 ):
     # start = time()
     res_cea = m_iw.load_object_csv(
@@ -159,21 +165,22 @@ def m_test_evaluation(
             round_id=c_round, data_version=data_version, search_mode=search_mode
         )
     )
+    # Fix a bug in result
+    # remove mid
     mtab_api = MTab4D()
     res_a = mtab_api.get_eval(
-        c_round,
-        res_cea=res_cea,
-        res_cta=res_cta,
-        res_cpa=res_cpa,
+        data_version, c_round, res_cea=res_cea, res_cta=res_cta, res_cpa=res_cpa,
     )
     # iw.print_status(f"{str(timedelta(seconds=round(time() - start)))}")
-    print(f"Round {c_round}:")
-    if res_a.get("res_cea"):
-        print("    CEA:" + str(res_a.get("res_cea")))
-    if res_a.get("res_cta"):
-        print("    CTA:" + str(res_a.get("res_cta")))
-    if res_a.get("res_cpa"):
-        print("    CPA:" + str(res_a.get("res_cpa")))
+    if print_result:
+        print(f"Round {c_round}:")
+        if res_a.get("res_cea"):
+            print("    CEA:" + str(res_a.get("res_cea")))
+        if res_a.get("res_cta"):
+            print("    CTA:" + str(res_a.get("res_cta")))
+        if res_a.get("res_cpa"):
+            print("    CPA:" + str(res_a.get("res_cpa")))
+    return res_a
 
 
 def pool_table_annotation(args):
@@ -195,7 +202,12 @@ def pool_table_annotation(args):
 
 
 def m_test_semtab(
-    round_id=1, data_version="semtab_2019_dbpedia_2016-10", n_thread=1, search_mode="b"
+    round_id=1,
+    data_version="semtab_2019_dbpedia_2016-10",
+    n_thread=1,
+    search_mode="b",
+    run_eval=True,
+    table_name=None,
 ):
     start = time()
 
@@ -203,7 +215,7 @@ def m_test_semtab(
     dir_tables = m_iw.get_files_from_dir(
         st.dir_tables.format(data_version=data_version, round_id=round_id),
         is_sort=True,
-        reverse=False,
+        reverse=True,
     )
     tar_cea, tar_cta, tar_cpa = defaultdict(list), defaultdict(list), defaultdict(list)
 
@@ -232,6 +244,8 @@ def m_test_semtab(
     args = []
     for dir_table in dir_tables:
         table_id = os.path.splitext(os.path.basename(dir_table))[0]
+        if table_name and table_id != table_name:
+            continue
         table_content = m_iw.load_object_csv(dir_table)
         args_obj = {
             "table_content": table_content,
@@ -246,10 +260,12 @@ def m_test_semtab(
 
     # Call MTab4D
     res_cea, res_cta, res_cpa = [], [], []
-    with tqdm(total=len(dir_tables)) as p_bar:
+    with tqdm(total=len(args)) as p_bar:
         with closing(Pool(processes=n_thread)) as p:
             for output_args in p.imap_unordered(pool_table_annotation, args):
                 p_bar.update()
+                if table_name:
+                    return output_args
                 if not output_args or output_args["status"] == "Error":
                     if output_args.get("message"):
                         print(output_args.get("message"))
@@ -266,21 +282,12 @@ def m_test_semtab(
                         )
                     if output_args["semantic"].get("cta"):
                         res_cta.extend(
-                            [
-                                output_args["table_name"],
-                                c,
-                                " ".join(a),
-                            ]
+                            [output_args["table_name"], c, " ".join(a),]
                             for c, a in output_args["semantic"]["cta"]
                         )
                     if output_args["semantic"].get("cpa"):
                         res_cpa.extend(
-                            [
-                                output_args["table_name"],
-                                c1,
-                                c2,
-                                a,
-                            ]
+                            [output_args["table_name"], c1, c2, a,]
                             for c1, c2, a in output_args["semantic"]["cpa"]
                         )
 
@@ -303,5 +310,6 @@ def m_test_semtab(
         ),
         res_cpa,
     )
-    m_test_evaluation(round_id, data_version=data_version, search_mode=search_mode)
+    if run_eval:
+        m_test_evaluation(round_id, data_version=data_version, search_mode=search_mode)
     print(f"{str(timedelta(seconds=round(time() - start)))}")
