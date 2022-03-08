@@ -128,6 +128,7 @@ class MTab4D(object):
         tar_cpa=None,
         round_id=0,
         search_mode="b",
+        search_limit=100,
     ):
         query_args = {
             "table_name": table_name,
@@ -138,6 +139,7 @@ class MTab4D(object):
             "tar_cpa": tar_cpa,
             "round_id": round_id,
             "search_mode": search_mode,
+            "search_limit": search_limit,
         }
         responds = self._request(self.F_MTAB, query_args)
         return responds
@@ -147,6 +149,7 @@ def m_test_evaluation(
     c_round=1,
     data_version="semtab_2019_dbpedia_2016-10",
     search_mode="b",
+    search_limit=1000,
     print_result=True,
 ):
     # start = time()
@@ -166,10 +169,9 @@ def m_test_evaluation(
         )
     )
     # Fix a bug in result
-    # remove mid
     mtab_api = MTab4D()
     res_a = mtab_api.get_eval(
-        data_version, c_round, res_cea=res_cea, res_cta=res_cta, res_cpa=res_cpa,
+        data_version, c_round, res_cea=res_cea, res_cta=res_cta, res_cpa=res_cpa
     )
     # iw.print_status(f"{str(timedelta(seconds=round(time() - start)))}")
     if print_result:
@@ -195,6 +197,7 @@ def pool_table_annotation(args):
             tar_cpa=args.get("tar_cpa"),
             round_id=args.get("round_id"),
             search_mode=args.get("search_mode"),
+            search_limit=args.get("search_limit"),
         )
         return responds
     except Exception as message:
@@ -206,6 +209,7 @@ def m_test_semtab(
     data_version="semtab_2019_dbpedia_2016-10",
     n_thread=1,
     search_mode="b",
+    search_limit=100,
     run_eval=True,
     table_name=None,
 ):
@@ -254,6 +258,7 @@ def m_test_semtab(
             "tar_cta": tar_cta.get(table_id),
             "tar_cpa": tar_cpa.get(table_id),
             "search_mode": search_mode,
+            "search_limit": search_limit,
             "round_id": round_id,
         }
         args.append(args_obj)
