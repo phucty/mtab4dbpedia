@@ -170,17 +170,11 @@ To make a fair evaluation, it is important to have the same target DBpedia versi
 
 If you find MTab4DBpedia tool useful in your work, and you want to cite our work, please use the following referencee:
 ```
-@inproceedings{2019_mtab4dbpedia,
-  author    = {Phuc Nguyen and
-               Natthawut Kertkeidkachorn and
-               Ryutaro Ichise and
-               Hideaki Takeda},
-  title     = {MTab: Matching Tabular Data to Knowledge Graph using Probability Models},
-  booktitle = {SemTab@ISWC 2019},
-  volume    = {2553},
-  pages     = {7--14},
-  publisher = {CEUR-WS.org},
-  year      = {2019},
+@article{Nguyen2022MTab4DSA,
+  title={MTab4D: Semantic annotation of tabular data with DBpedia},
+  author={Phuc Tri Nguyen and Natthawut Kertkeidkachorn and Ryutaro Ichise and Hideaki Takeda},
+  journal={Semantic Web},
+  year={2022}
 }
 ```
 
